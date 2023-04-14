@@ -78,7 +78,7 @@ function App() {
             <p>Type here<span className="text-emerald-400 text-lg">:</span>{" "}</p>
             <input
               className="bg-transparent p-2 border-b border-b-white focus:border-b-emerald-500 outline-none transition-all"
-              defaultValue="https://google.com"
+              placeholder="https://google.com"
               {...register("url", {
                 pattern: { value: URL_REGEXP, message: "Must be a valid url" },
               })}
