@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import TreeView from "./components/TreeView";
+import Input from "./components/Input";
 
 const testData: UrlInfo = {
   url: "https://google.com",
@@ -60,10 +61,12 @@ function App() {
     formState: { errors },
   } = useForm<{
     url: string;
+    depth: number;
+    maxUrl: number;
   }>();
 
   const onSubmit = handleSubmit((data) => {
-    console.log("url?", data.url);
+    console.log("data?", data)
   });
 
   return (
@@ -74,14 +77,33 @@ function App() {
           Enter a URL and it will crawl, explore, and collect the URLs for you!
         </p>
         <form onSubmit={onSubmit}>
-          <div className="flex gap-2 items-center pb-2">
-            <p>Type here<span className="text-emerald-400 text-lg">:</span>{" "}</p>
-            <input
-              className="bg-transparent p-2 border-b border-b-white focus:border-b-emerald-500 outline-none transition-all"
-              placeholder="https://google.com"
+          <div className="flex gap-4 items-center justify-start pb-2 flex-wrap lg:flex-nowrap">
+            <p className="min-w-max">Type here<span className="text-emerald-400 text-lg">:</span>{" "}</p>
+            <Input
+              label="URL (Ex. https://google.com)"
+              className="flex-1"
               {...register("url", {
                 pattern: { value: URL_REGEXP, message: "Must be a valid url" },
+                required: true,
               })}
+              error={errors.url?.message}
+            />
+            <Input
+              label="Depth"
+              type="number"
+              min={1}
+              max={20}
+              required
+              {...register("depth", { required: true })}
+            />
+            <Input
+              label="Max URL Fetched"
+              defaultValue={100}
+              type="number"
+              min={1}
+              max={200}
+              required
+              {...register("maxUrl", { required: true })}
             />
             <button
               className="ml-2 text-emerald-700 hover:text-white border border-emerald-700 hover:bg-emerald-800 rounded-sm focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium text-sm px-5 py-2.5 text-center dark:border-emerald-500 dark:text-emerald-500 dark:hover:text-white dark:hover:bg-emerald-600 dark:focus:ring-emerald-800 transition-all"
@@ -90,11 +112,6 @@ function App() {
               Crawl
             </button>
           </div>
-          {errors.url && (
-            <span className="ml-[12ch] text-red-400 transition-all">
-              {errors.url.message}
-            </span>
-          )}
         </form>
         <TreeView urlInfo={testData} />
       </div>
