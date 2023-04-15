@@ -6,7 +6,7 @@ A simple UI built using React + Typescript for the backend project: [Tree URL Cr
 
 Some important links:
 
-* View the app: [crawler-fe.vercel.app](crawler-fe.vercel.app)
+* View the app: [crawler-fe.vercel.app](https://crawler-fe.vercel.app/)
 * Back-end source code: [https://github.com/tsaqifammar/golang-crawler-be](https://github.com/tsaqifammar/golang-crawler-be)
 
 ## View
