@@ -1,49 +1,51 @@
 import { useForm } from "react-hook-form";
 import TreeView from "./components/TreeView";
 import Input from "./components/Input";
+import { useCrawl } from "./hooks/useCrawl";
+import Spinner from "./components/Spinner";
 
-const testData: UrlInfo = {
-  url: "https://google.com",
+const exampleCrawlData: UrlInfo = {
+  url: "https://url1.com",
   childUrls: [
     {
-      url: "child1",
+      url: "https://url11.com",
       childUrls: [
         {
-          url: "child11",
+          url: "https://url111.com",
           childUrls: [],
         },
         {
-          url: "child12",
+          url: "https://url112.com",
           childUrls: [],
         },
       ],
     },
     {
-      url: "child2",
+      url: "https://url12.com",
       childUrls: [
         {
-          url: "child21",
+          url: "https://url121.com",
           childUrls: [],
         },
         {
-          url: "child22",
+          url: "https://url122.com",
           childUrls: [],
         },
         {
-          url: "child23",
+          url: "https://url123.com",
           childUrls: [],
         },
       ],
     },
     {
-      url: "child3",
+      url: "https://url13.com",
       childUrls: [],
     },
     {
-      url: "child4",
+      url: "https://url14.com",
       childUrls: [
         {
-          url: "child41",
+          url: "https://url141.com",
           childUrls: [],
         },
       ],
@@ -55,6 +57,8 @@ const URL_REGEXP =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
 function App() {
+  const { crawl, data: crawlData, isLoading, error } = useCrawl();
+
   const {
     register,
     handleSubmit,
@@ -65,9 +69,9 @@ function App() {
     maxUrl: number;
   }>();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log("data?", data)
-  });
+  const onSubmit = handleSubmit((data) =>
+    crawl(data.url, data.depth, data.maxUrl)
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 font-mono text-white w-full">
@@ -78,7 +82,9 @@ function App() {
         </p>
         <form onSubmit={onSubmit}>
           <div className="flex gap-4 items-center justify-start pb-2 flex-wrap lg:flex-nowrap">
-            <p className="min-w-max">Type here<span className="text-emerald-400 text-lg">:</span>{" "}</p>
+            <p className="min-w-max">
+              Type here<span className="text-emerald-400 text-lg">:</span>{" "}
+            </p>
             <Input
               label="URL (Ex. https://google.com)"
               className="flex-1"
@@ -89,7 +95,7 @@ function App() {
               error={errors.url?.message}
             />
             <Input
-              label="Depth"
+              label="Max Depth"
               type="number"
               min={1}
               max={20}
@@ -112,8 +118,20 @@ function App() {
               Crawl
             </button>
           </div>
+          <p className="italic text-xs text-gray-600">Note: we rate-limited the crawler to only fetch at a maximum of three urls per second, so it may take some time. (although a page of a url may contain a lot of urls)</p>
         </form>
-        <TreeView urlInfo={testData} />
+        {isLoading ? (
+          <Spinner />
+        ) : error ? (
+          <p className="text-red-400">{error}</p>
+        ) : crawlData == null ? (
+          <>
+            <p>Example</p>
+            <TreeView urlInfo={exampleCrawlData} />
+          </>
+        ) : (
+          <TreeView urlInfo={crawlData} />
+        )}
       </div>
     </div>
   );
