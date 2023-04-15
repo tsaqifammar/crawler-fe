@@ -1,5 +1,5 @@
 
-type UrlInfo = {
+export type UrlInfo = {
   url: string
   childUrls: UrlInfo[]
 }

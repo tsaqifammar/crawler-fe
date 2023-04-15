@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { UrlInfo } from "../types/url";
 
 export function useCrawl() {
   const [data, setData] = useState<UrlInfo | null>(null);

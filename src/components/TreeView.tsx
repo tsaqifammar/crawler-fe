@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TbChevronDown, TbChevronUp, TbCircleFilled } from "react-icons/tb";
+import { UrlInfo } from "../types/url";
 
 type TreeViewProps = {
   urlInfo: UrlInfo;

@@ -3,6 +3,7 @@ import TreeView from "./components/TreeView";
 import Input from "./components/Input";
 import { useCrawl } from "./hooks/useCrawl";
 import Spinner from "./components/Spinner";
+import { UrlInfo } from "./types/url";
 
 const exampleCrawlData: UrlInfo = {
   url: "https://url1.com",
