@@ -2,7 +2,12 @@
 
 Enter a URL and it will crawl, explore, and collect the URLs for you!
 
-A simple UI built in React + Typescript for the backend project: [url crawler](https://github.com/tsaqifammar/golang-crawler-be).
+A simple UI built using React + Typescript for the backend project: [Tree URL Crawler](https://github.com/tsaqifammar/golang-crawler-be).
+
+Some important links:
+
+* View the app: [crawler-fe.vercel.app](crawler-fe.vercel.app)
+* Back-end source code: [https://github.com/tsaqifammar/golang-crawler-be](https://github.com/tsaqifammar/golang-crawler-be)
 
 ## View
 
